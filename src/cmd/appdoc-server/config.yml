@@ -1,0 +1,10 @@
+database:
+  url: "mongodb://localhost:27017"
+  dbname: "AppDb"
+  collection: "applications"
+
+server:
+  port: "8080"
+
+app:
+  name: "appdoc-api"

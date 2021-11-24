@@ -1,18 +1,28 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/bburakseyhann/appdoc-api/src/cmd/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
 
-func Initialize() {
+func Initialize(config utils.Configuration) {
 
-	logrus.SetFormatter(&logrus.JSONFormatter{})
+	// Create a new instance of the logger. You can have any number of instances.
+	var log = logrus.New()
 
-	logrus.Info("Application is starting....")
-	// Todo: Configure Application Settings with Viper
+	log.WithFields(logrus.Fields{
+		"mongo_url":   config.Database.Url,
+		"server_port": config.Server.Port,
+		"db_name":     config.Database.DbName,
+		"collection":  config.Database.Collection,
+	}).Info("\nConfiguration informations\n")
+
+	logrus.Infof("Application Name %s is starting....", config.App.Name)
+
 	// Todo: Initialize MongoDb Client
 	// Todo: Initialize Repositories and Handlers
 
@@ -25,5 +35,7 @@ func Initialize() {
 	})
 
 	// PORT environment variable was defined.
-	router.Run(":8080")
+	formattedUrl := fmt.Sprintf(": %s", config.Server.Port)
+
+	router.Run(formattedUrl)
 }
