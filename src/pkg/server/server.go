@@ -2,9 +2,10 @@ package server
 
 import (
 	"fmt"
-	"net/http"
 
 	"github.com/bburakseyhann/appdoc-api/src/cmd/utils"
+	"github.com/bburakseyhann/appdoc-api/src/pkg/client/mongodb"
+	"github.com/bburakseyhann/appdoc-api/src/pkg/handler"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -24,15 +25,21 @@ func Initialize(config utils.Configuration) {
 	logrus.Infof("Application Name %s is starting....", config.App.Name)
 
 	// Todo: Initialize MongoDb Client
-	// Todo: Initialize Repositories and Handlers
+	client, err := mongodb.ConnectMongoDb(config.Database.Url)
+
+	if err == nil {
+		logrus.Fatal(err)
+	}
+
+	handler := handler.NewAppDocHandler(client)
+
+	// Todo: Initialize Repositories
 
 	// Creates a gin router with default middleware:
 	// logger and recovery (crash-free) middleware
 	router := gin.Default()
 
-	router.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"ping": "pong"})
-	})
+	router.GET("/health", handler.Healthcheck)
 
 	// PORT environment variable was defined.
 	formattedUrl := fmt.Sprintf(": %s", config.Server.Port)
