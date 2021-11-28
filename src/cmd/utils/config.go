@@ -17,5 +17,6 @@ type ServerSettings struct {
 }
 
 type Application struct {
-	Name string
+	Name           string
+	RequestTimeOut int
 }

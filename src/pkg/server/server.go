@@ -6,6 +6,7 @@ import (
 	"github.com/bburakseyhann/appdoc-api/src/cmd/utils"
 	"github.com/bburakseyhann/appdoc-api/src/pkg/client/mongodb"
 	"github.com/bburakseyhann/appdoc-api/src/pkg/handler"
+	"github.com/bburakseyhann/appdoc-api/src/pkg/repository"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -31,15 +32,22 @@ func Initialize(config utils.Configuration) {
 		logrus.Fatal(err)
 	}
 
-	handler := handler.NewAppDocHandler(client)
-
-	// Todo: Initialize Repositories
+	repository := repository.NewAppDocRepository(&config, client)
+	handler := handler.NewAppDocHandler(client, repository, config)
 
 	// Creates a gin router with default middleware:
 	// logger and recovery (crash-free) middleware
 	router := gin.Default()
 
-	router.GET("/health", handler.Healthcheck)
+	api := router.Group("api/v1")
+	{
+		api.GET("/health", handler.Healthcheck)
+
+		api.POST("/appdoc/add", handler.Add)
+		api.GET("/appdoc/list/:take", handler.List)
+		api.GET("/appdoc/get/:id", handler.GetById)
+		api.GET("/appdoc/delete/:id", handler.Delete)
+	}
 
 	// PORT environment variable was defined.
 	formattedUrl := fmt.Sprintf(": %s", config.Server.Port)
