@@ -1,6 +1,8 @@
 # appdoc-api
 
 <a href="https://codeclimate.com/github/bburaksseyhan/appdoc-api/maintainability"><img src="https://api.codeclimate.com/v1/badges/b93f81c081921cb109df/maintainability" /></a>
+[![license](https://img.shields.io/github/license/bburaksseyhan/appdoc-api.svg)](LICENSE)
+[![Go language](https://img.shields.io/badge/language-Go-blue.svg)](https://golang.org/)
 
 In this branch you'll see;
 
@@ -17,7 +19,7 @@ In this branch you'll see;
 required packages :package:
 ```
     go get -u github.com/sirupsen/logrus v1.8.1
-	go get -u github.com/spf13/viper v1.9.0
+	  go get -u github.com/spf13/viper v1.9.0
     go get -u github.com/gin-gonic/gin
     go get -u go.mongodb.org/mongo-driver/mongo
     go get -u go.mongodb.org/mongo-driver/mongo/options
@@ -40,7 +42,7 @@ func Response(message string, data map[string]interface{}) *ResponseResult {
 	}
 }
 
-<b>usage</b> 
+<b> usage </b> 
 
 c.IndentedJSON(http.StatusOK, utils.Response("Pong", map[string]interface{}{"Data": "The MongoDB client is working successfully", "Date": time.Local}))
 ```
@@ -89,7 +91,7 @@ services:
         - "db.adminCommand('ping')"
       restart: unless-stopped
     
-    appdocapi:
+    appdoc-api::
       build:
         context: .
         dockerfile: ./dockerfile
