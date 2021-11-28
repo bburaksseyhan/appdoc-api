@@ -8,7 +8,7 @@ In this branch you'll see;
 * You'll learn <b>logrus</b> implementation
 * Implement the MongoDB using with <b>mongo</b> and <b>options</b> packages :package:
 * Working with Repository Pattern and  Factory Design Pattern (includes repository and handler)
-* using OS packages 
+* using OS packages :package:
 
 required packages :package:
 ```
