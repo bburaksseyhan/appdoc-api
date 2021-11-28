@@ -3,6 +3,7 @@
 <a href="https://codeclimate.com/github/bburaksseyhan/appdoc-api/maintainability"><img src="https://api.codeclimate.com/v1/badges/b93f81c081921cb109df/maintainability" /></a>
 [![license](https://img.shields.io/github/license/bburaksseyhan/appdoc-api.svg)](LICENSE)
 [![Go language](https://img.shields.io/badge/language-Go-blue.svg)](https://golang.org/)
+[![Go Report Card](https://goreportcard.com/badge/github.com/bburaksseyhan/appdoc-api)](https://goreportcard.com/report/github.com/bburaksseyhan/appdoc-api)
 
 In this branch you'll see;
 
