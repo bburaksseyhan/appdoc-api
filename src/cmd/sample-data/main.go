@@ -34,8 +34,10 @@ func main() {
 	logrus.Info("Data\n", len(appDocs))
 
 	//import mongo client
-	client, _ := mongodb.ConnectMongoDb("mongodb://localhost:27017")
-	logrus.Info(client)
+	client, err := mongodb.ConnectMongoDb("mongodb://localhost:27017")
+	if err != nil {
+		logrus.Fatal(err)
+	}
 
 	defer client.Disconnect(context.TODO())
 
