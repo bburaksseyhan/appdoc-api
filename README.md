@@ -20,7 +20,7 @@ In this branch you'll see;
 required packages :package:
 ```
     go get -u github.com/sirupsen/logrus v1.8.1
-	  go get -u github.com/spf13/viper v1.9.0
+    go get -u github.com/spf13/viper v1.9.0
     go get -u github.com/gin-gonic/gin
     go get -u go.mongodb.org/mongo-driver/mongo
     go get -u go.mongodb.org/mongo-driver/mongo/options
