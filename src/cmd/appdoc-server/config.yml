@@ -8,3 +8,4 @@ server:
 
 app:
   name: "appdoc-api"
+  request_timeout: 3000
