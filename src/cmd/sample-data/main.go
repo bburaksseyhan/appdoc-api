@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/bburakseyhann/appdoc-api/src/pkg/client/mongodb"
-	"github.com/bburakseyhann/appdoc-api/src/pkg/model"
+	"github.com/bburaksseyhan/appdoc-api/src/pkg/client/mongodb"
+	"github.com/bburaksseyhan/appdoc-api/src/pkg/model"
 
 	"github.com/sirupsen/logrus"
 )
