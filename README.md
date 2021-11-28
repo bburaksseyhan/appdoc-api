@@ -1,5 +1,7 @@
 # appdoc-api
 
+<a href="https://codeclimate.com/github/bburaksseyhan/appdoc-api/maintainability"><img src="https://api.codeclimate.com/v1/badges/b93f81c081921cb109df/maintainability" /></a>
+
 In this branch you'll see;
 
 * Project layout :building_construction:
