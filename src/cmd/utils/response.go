@@ -5,7 +5,7 @@ type ResponseResult struct {
 	Data    map[string]interface{} `json:"data"`
 }
 
-// BadRequestError return ResponseError with bad_request status and messages
+// Response and error_response.go file usage
 func Response(message string, data map[string]interface{}) *ResponseResult {
 	return &ResponseResult{
 		Message: message,
