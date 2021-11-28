@@ -69,7 +69,6 @@ func (app *appDocHandler) Add(c *gin.Context) {
 	country := c.Param("country")
 
 	appModel = &model.AppDoc{
-		Id:           [12]byte{},
 		CompanyName:  company_name,
 		AppName:      app_name,
 		AppVersion:   app_version,
