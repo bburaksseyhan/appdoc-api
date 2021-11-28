@@ -45,10 +45,10 @@ func (app *appDocHandler) Healthcheck(c *gin.Context) {
 	}
 
 	if err := app.client.Ping(ctx, nil); err != nil {
-		c.JSON(http.StatusOK, gin.H{"status": "unhealty"})
+		utils.InternalServerError("Status unhealth", err, map[string]interface{}{"Data": "Please check the Client", "Time": time.Local})
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status": "pong"})
+	c.IndentedJSON(http.StatusOK, utils.Response("Pong", map[string]interface{}{"Data": "The MongoDB client is working successfully", "Date": time.Local}))
 }
 
 func (app *appDocHandler) Add(c *gin.Context) {
@@ -58,35 +58,25 @@ func (app *appDocHandler) Add(c *gin.Context) {
 
 	var appModel *model.AppDoc
 
-	//get parameter
-	company_name := c.Param("company_name")
-	app_name := c.Param("app_name")
-	app_version := c.Param("app_version")
-	domain := c.Param("domain")
-	email_address := c.Param("email_address")
-	ip_address := c.Param("ip_address")
-	url := c.Param("url")
-	country := c.Param("country")
-
 	appModel = &model.AppDoc{
-		CompanyName:  company_name,
-		AppName:      app_name,
-		AppVersion:   app_version,
-		Domain:       domain,
-		EmailAddress: email_address,
-		IpAddress:    ip_address,
-		Url:          url,
-		Country:      country,
+		CompanyName:  c.Param("company_name"),
+		AppName:      c.Param("app_name"),
+		AppVersion:   c.Param("app_version"),
+		Domain:       c.Param("domain"),
+		EmailAddress: c.Param("email_address"),
+		IpAddress:    c.Param("ip_address"),
+		Url:          c.Param("url"),
+		Country:      c.Param("country"),
 	}
 
 	entity := entity.AppDoc(*appModel)
 
 	oId, err := app.appDocRepository.Add(entity, ctx)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"add result": err.Error})
+		utils.BadRequestError("AppDoc_Handler_Add", err, map[string]interface{}{"Data": entity})
 	}
 
-	c.JSON(http.StatusOK, gin.H{"add result": oId})
+	c.IndentedJSON(http.StatusCreated, utils.Response("AppDoc_Handler_Add", map[string]interface{}{"OId": oId}))
 }
 
 func (app *appDocHandler) List(c *gin.Context) {
@@ -101,7 +91,7 @@ func (app *appDocHandler) List(c *gin.Context) {
 
 	result, err := app.appDocRepository.List(take, ctx)
 	if err != mongo.ErrNilCursor {
-		c.JSON(http.StatusBadRequest, gin.H{"list result": err.Error()})
+		utils.BadRequestError("AppDoc_Handler_List", err, map[string]interface{}{"Data": take})
 	}
 
 	//convert to entity to model
@@ -109,7 +99,7 @@ func (app *appDocHandler) List(c *gin.Context) {
 		appDocsModel = append(appDocsModel, (*model.AppDoc)(item))
 	}
 
-	c.JSON(http.StatusOK, gin.H{"list result": appDocsModel})
+	c.IndentedJSON(http.StatusOK, utils.Response("AppDoc_Handler_List", map[string]interface{}{"Data": appDocsModel}))
 }
 
 func (app *appDocHandler) GetById(c *gin.Context) {
@@ -121,16 +111,19 @@ func (app *appDocHandler) GetById(c *gin.Context) {
 
 	oId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		logrus.Error("can not convert to id")
-		c.JSON(http.StatusBadRequest, gin.H{"GetById": err.Error()})
+		utils.BadRequestError("AppDoc_Handler_GetById ObjectId couldn't convert it.", err, map[string]interface{}{"Data": id})
 	}
 
 	result, err := app.appDocRepository.GetById(oId, ctx)
 	if err != mongo.ErrNilCursor {
-		c.JSON(http.StatusBadRequest, gin.H{"GetById result": err.Error()})
+		utils.BadRequestError("AppDoc_Handler_GetById", err, map[string]interface{}{"Data": id})
 	}
 
-	c.JSON(http.StatusOK, gin.H{"GetById result": result})
+	if result == nil {
+		utils.NotFoundRequestError("AppDoc_Handler_GetById", err, map[string]interface{}{"Data": id})
+	}
+
+	c.IndentedJSON(http.StatusOK, utils.Response("AppDoc_Handler_GetById", map[string]interface{}{"Data": result}))
 }
 
 func (app *appDocHandler) Delete(c *gin.Context) {
@@ -142,14 +135,13 @@ func (app *appDocHandler) Delete(c *gin.Context) {
 
 	oId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		logrus.Error("can not convert to id")
-		c.JSON(http.StatusBadRequest, gin.H{"Delete": err.Error()})
+		utils.BadRequestError("AppDoc_Handler_GetById ObjectId couldn't convert it.", err, map[string]interface{}{"Data": id})
 	}
 
 	result, err := app.appDocRepository.Delete(oId, ctx)
 	if err != mongo.ErrNilCursor {
-		c.JSON(http.StatusBadRequest, gin.H{"Delete result": err.Error()})
+		utils.BadRequestError("AppDoc_Handler_Delete", err, map[string]interface{}{"Data": id})
 	}
 
-	c.JSON(http.StatusOK, gin.H{"Delete result": result})
+	c.IndentedJSON(http.StatusOK, utils.Response("AppDoc_Handler_Delete", map[string]interface{}{"Data": result}))
 }
