@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/bburakseyhann/appdoc-api/src/pkg/model"
-	"github.com/bburaksseyhan/contact-api/src/pkg/client/mongodb"
+	"github.com/bburaksseyhan/appdoc-api/src/pkg/client/mongodb"
+	"github.com/bburaksseyhan/appdoc-api/src/pkg/model"
 
 	"github.com/sirupsen/logrus"
 )
@@ -34,7 +34,7 @@ func main() {
 	logrus.Info("Data\n", len(appDocs))
 
 	//import mongo client
-	client := mongodb.ConnectMongoDb("mongodb://localhost:27017")
+	client, _ := mongodb.ConnectMongoDb("mongodb://localhost:27017")
 	logrus.Info(client)
 
 	defer client.Disconnect(context.TODO())
