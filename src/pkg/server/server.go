@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/bburakseyhann/appdoc-api/src/cmd/utils"
+	"github.com/bburaksseyhan/appdoc-api/src/cmd/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
