@@ -37,7 +37,7 @@ func NewAppDocHandler(client *mongo.Client, repo repository.AppDocRepository, co
 
 func (app *appDocHandler) Healthcheck(c *gin.Context) {
 
-	ctx, ctxErr := context.WithTimeout(c.Request.Context(), time.Duration(app.config.App.RequestTimeOut)*time.Second)
+	ctx, ctxErr := context.WithTimeout(c.Request.Context(), time.Duration(app.config.App.Timeout)*time.Second)
 	defer ctxErr()
 
 	if ctxErr != nil {
@@ -53,7 +53,7 @@ func (app *appDocHandler) Healthcheck(c *gin.Context) {
 
 func (app *appDocHandler) Add(c *gin.Context) {
 
-	ctx, ctxErr := context.WithTimeout(c.Request.Context(), time.Duration(app.config.App.RequestTimeOut)*time.Second)
+	ctx, ctxErr := context.WithTimeout(c.Request.Context(), time.Duration(app.config.App.Timeout)*time.Second)
 	defer ctxErr()
 
 	var appModel *model.AppDoc
@@ -81,7 +81,7 @@ func (app *appDocHandler) Add(c *gin.Context) {
 
 func (app *appDocHandler) List(c *gin.Context) {
 
-	ctx, ctxErr := context.WithTimeout(c.Request.Context(), time.Duration(app.config.App.RequestTimeOut)*time.Second)
+	ctx, ctxErr := context.WithTimeout(c.Request.Context(), time.Duration(app.config.App.Timeout)*time.Second)
 	defer ctxErr()
 
 	var appDocsModel []*model.AppDoc
@@ -104,7 +104,7 @@ func (app *appDocHandler) List(c *gin.Context) {
 
 func (app *appDocHandler) GetById(c *gin.Context) {
 
-	ctx, ctxErr := context.WithTimeout(c.Request.Context(), time.Duration(app.config.App.RequestTimeOut)*time.Second)
+	ctx, ctxErr := context.WithTimeout(c.Request.Context(), time.Duration(app.config.App.Timeout)*time.Second)
 	defer ctxErr()
 
 	id := c.Param("id")
@@ -128,7 +128,7 @@ func (app *appDocHandler) GetById(c *gin.Context) {
 
 func (app *appDocHandler) Delete(c *gin.Context) {
 
-	ctx, ctxErr := context.WithTimeout(c.Request.Context(), time.Duration(app.config.App.RequestTimeOut)*time.Second)
+	ctx, ctxErr := context.WithTimeout(c.Request.Context(), time.Duration(app.config.App.Timeout)*time.Second)
 	defer ctxErr()
 
 	id := c.Param("id")

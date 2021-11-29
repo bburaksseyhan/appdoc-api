@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"reflect"
 	"strconv"
 
 	"github.com/bburaksseyhan/appdoc-api/src/cmd/utils"
@@ -27,15 +28,18 @@ func read_configuration(config utils.Configuration) utils.Configuration {
 	dbName := os.Getenv("DB_NAME")
 	collection := os.Getenv("COLLECTION")
 	appName := os.Getenv("APP_NAME")
-	requestTimeOut, err := strconv.Atoi(os.Getenv("REQUEST_TIMEOUT"))
-
-	if err != nil {
-		logrus.Error("REQUEST_TIMEOUT can not be convert")
-	}
+	requestTimeOut := os.Getenv("TIMEOUT")
 
 	if mongoUri != "" || port != "" || dbName != "" || collection != "" || appName != "" {
+
+		requestTimeOut, err := strconv.Atoi(requestTimeOut)
+		if err != nil {
+			logrus.Fatal("TIMEOUT can not converted %d\n", requestTimeOut)
+		}
+		logrus.Info("Timeout data type", reflect.TypeOf(requestTimeOut))
+
 		return utils.Configuration{
-			App:      utils.Application{Name: appName, RequestTimeOut: requestTimeOut},
+			App:      utils.Application{Name: appName, Timeout: 3000},
 			Database: utils.DatabaseSetting{Url: mongoUri, DbName: dbName, Collection: collection},
 			Server:   utils.ServerSettings{Port: port},
 		}
@@ -43,7 +47,7 @@ func read_configuration(config utils.Configuration) utils.Configuration {
 
 	// return config.yml variable
 	return utils.Configuration{
-		App:      utils.Application{Name: config.App.Name, RequestTimeOut: config.App.RequestTimeOut},
+		App:      utils.Application{Name: config.App.Name, Timeout: config.App.Timeout},
 		Database: utils.DatabaseSetting{Url: config.Database.Url, DbName: config.Database.DbName, Collection: config.Database.Collection},
 		Server:   utils.ServerSettings{Port: config.Server.Port},
 	}

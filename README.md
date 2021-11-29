@@ -28,26 +28,6 @@ required packages :package:
     go get -u go.mongodb.org/mongo-driver/bson
 ```
 
-### response.go
-```
-type ResponseResult struct {
-	Message string                 `json:"message"`
-	Data    map[string]interface{} `json:"data"`
-}
-
-// Response return some of information
-func Response(message string, data map[string]interface{}) *ResponseResult {
-	return &ResponseResult{
-		Message: message,
-		Data:    data,
-	}
-}
-
-<b> usage </b> 
-
-c.IndentedJSON(http.StatusOK, utils.Response("Pong", map[string]interface{}{"Data": "The MongoDB client is working successfully", "Date": time.Local}))
-```
-
 ### docker file
 ```
 	FROM golang:1.16-alpine as build-env
@@ -92,7 +72,7 @@ services:
         - "db.adminCommand('ping')"
       restart: unless-stopped
     
-    appdoc-api::
+    appdoc-api:
       build:
         context: .
         dockerfile: ./dockerfile
