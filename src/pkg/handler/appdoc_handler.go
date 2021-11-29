@@ -56,9 +56,9 @@ func (app *appDocHandler) Add(c *gin.Context) {
 	ctx, ctxErr := context.WithTimeout(c.Request.Context(), time.Duration(app.config.App.Timeout)*time.Second)
 	defer ctxErr()
 
-	var appModel *model.AppDoc
+	var appEntity *entity.AppDoc
 
-	appModel = &model.AppDoc{
+	appEntity = &entity.AppDoc{
 		CompanyName:  c.Param("company_name"),
 		AppName:      c.Param("app_name"),
 		AppVersion:   c.Param("app_version"),
@@ -69,7 +69,7 @@ func (app *appDocHandler) Add(c *gin.Context) {
 		Country:      c.Param("country"),
 	}
 
-	entity := entity.AppDoc(*appModel)
+	entity := entity.AppDoc(*appEntity)
 
 	oId, err := app.appDocRepository.Add(entity, ctx)
 	if err != nil {
@@ -87,12 +87,18 @@ func (app *appDocHandler) List(c *gin.Context) {
 	var appDocsModel []*model.AppDoc
 
 	tParam := c.Param("take")
-	take, _ := strconv.Atoi(tParam)
+	take, err := strconv.Atoi(tParam)
+	if err != nil {
+		logrus.Fatal("Take parameter can not be converted.")
+	}
+
+	logrus.Infof("Take %d", take)
 
 	result, err := app.appDocRepository.List(take, ctx)
 	if err != mongo.ErrNilCursor {
 		utils.BadRequestError("AppDoc_Handler_List", err, map[string]interface{}{"Data": take})
 	}
+	logrus.Infof("Len %d", len(result))
 
 	//convert to entity to model
 	for _, item := range result {
@@ -113,6 +119,8 @@ func (app *appDocHandler) GetById(c *gin.Context) {
 	if err != nil {
 		utils.BadRequestError("AppDoc_Handler_GetById ObjectId couldn't convert it.", err, map[string]interface{}{"Data": id})
 	}
+
+	logrus.Infof("OId %s", oId)
 
 	result, err := app.appDocRepository.GetById(oId, ctx)
 	if err != mongo.ErrNilCursor {
@@ -138,8 +146,10 @@ func (app *appDocHandler) Delete(c *gin.Context) {
 		utils.BadRequestError("AppDoc_Handler_GetById ObjectId couldn't convert it.", err, map[string]interface{}{"Data": id})
 	}
 
+	logrus.Infof("OId %s", oId)
+
 	result, err := app.appDocRepository.Delete(oId, ctx)
-	if err != mongo.ErrNilCursor {
+	if err != nil {
 		utils.BadRequestError("AppDoc_Handler_Delete", err, map[string]interface{}{"Data": id})
 	}
 

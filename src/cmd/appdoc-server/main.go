@@ -30,7 +30,7 @@ func read_configuration(config utils.Configuration) utils.Configuration {
 	appName := os.Getenv("APP_NAME")
 	requestTimeOut := os.Getenv("TIMEOUT")
 
-	if mongoUri != "" || port != "" || dbName != "" || collection != "" || appName != "" {
+	if mongoUri != "" && port != "" && dbName != "" && collection != "" && appName != "" {
 
 		requestTimeOut, err := strconv.Atoi(requestTimeOut)
 		if err != nil {
@@ -39,7 +39,7 @@ func read_configuration(config utils.Configuration) utils.Configuration {
 		logrus.Info("Timeout data type", reflect.TypeOf(requestTimeOut))
 
 		return utils.Configuration{
-			App:      utils.Application{Name: appName, Timeout: 3000},
+			App:      utils.Application{Name: appName, Timeout: config.App.Timeout},
 			Database: utils.DatabaseSetting{Url: mongoUri, DbName: dbName, Collection: collection},
 			Server:   utils.ServerSettings{Port: port},
 		}

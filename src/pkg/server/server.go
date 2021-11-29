@@ -46,7 +46,7 @@ func Initialize(config utils.Configuration) {
 		api.POST("/appdoc/add", handler.Add)
 		api.GET("/appdoc/list/:take", handler.List)
 		api.GET("/appdoc/get/:id", handler.GetById)
-		api.GET("/appdoc/delete/:id", handler.Delete)
+		api.PUT("/appdoc/delete/:id", handler.Delete)
 	}
 
 	// PORT environment variable was defined.

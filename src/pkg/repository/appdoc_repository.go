@@ -2,10 +2,10 @@ package repository
 
 import (
 	"context"
-	"log"
 
 	"github.com/bburaksseyhan/appdoc-api/src/cmd/utils"
 	"github.com/bburaksseyhan/appdoc-api/src/pkg/entity"
+	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -50,9 +50,11 @@ func (app *appDocRepository) List(count int, ctx context.Context) ([]*entity.App
 	findOptions := options.Find()
 	findOptions.SetLimit(int64(count))
 
+	logrus.Infof("FindOptions %d, DbName %s, Url %s", count, app.config.Database.DbName, app.config.Database.Url)
+
 	collection := app.client.Database(app.config.Database.DbName).Collection(app.config.Database.Collection)
 
-	cursor, err := collection.Find(ctx, findOptions)
+	cursor, err := collection.Find(ctx, bson.D{}, findOptions)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +66,7 @@ func (app *appDocRepository) List(count int, ctx context.Context) ([]*entity.App
 		// create a value into which the single document can be decoded
 		var elem entity.AppDoc
 		if err := cursor.Decode(&elem); err != nil {
-			log.Fatal(err)
+			logrus.Fatal(err)
 			return nil, err
 		}
 
@@ -73,7 +75,8 @@ func (app *appDocRepository) List(count int, ctx context.Context) ([]*entity.App
 
 	cursor.Close(ctx)
 
-	return appDocs, mongo.ErrNilCursor
+	logrus.Infof("AppDocs Count:", len(appDocs))
+	return appDocs, nil
 }
 
 func (app *appDocRepository) GetById(oId primitive.ObjectID, ctx context.Context) (*entity.AppDoc, error) {
@@ -86,7 +89,7 @@ func (app *appDocRepository) GetById(oId primitive.ObjectID, ctx context.Context
 
 	collection.FindOne(ctx, filter).Decode(&appDoc)
 
-	return appDoc, bson.ErrDecodeToNil
+	return appDoc, nil
 }
 
 func (app *appDocRepository) Delete(oId primitive.ObjectID, ctx context.Context) (int64, error) {

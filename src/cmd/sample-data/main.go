@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/bburaksseyhan/appdoc-api/src/pkg/client/mongodb"
-	"github.com/bburaksseyhan/appdoc-api/src/pkg/model"
+	"github.com/bburaksseyhan/appdoc-api/src/pkg/entity"
 
 	"github.com/sirupsen/logrus"
 )
@@ -22,7 +22,7 @@ func main() {
 
 	defer appDocJSON.Close()
 
-	appDocs := []model.AppDoc{}
+	appDocs := []entity.AppDoc{}
 
 	byteValue, _ := ioutil.ReadAll(appDocJSON)
 
