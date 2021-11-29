@@ -97,9 +97,30 @@ services:
 ```
  docker ps -a
  docker exec -it container_id mongo
+```
+
+```
  show dbs
+```
+
+```
  use AppDb
 ```
+
+```
+ show collections
+```
+
+```
+ db.applications.find({}).pretty()
+```
+
+```
+ db.applications.find({"_id":ObjectId("61a476e6039fa0ff1792b7ff")}).pretty()
+```
+
+
+### run main.go
 
 ```
  go mod init github.com/bburakseyhann/appdoc-api
