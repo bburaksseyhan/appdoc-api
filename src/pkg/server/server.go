@@ -3,9 +3,9 @@ package server
 import (
 	"fmt"
 
-	"github.com/bburakseyhann/appdoc-api/src/cmd/utils"
-	"github.com/bburakseyhann/appdoc-api/src/pkg/client/mongodb"
-	"github.com/bburakseyhann/appdoc-api/src/pkg/handler"
+	"github.com/bburaksseyhan/appdoc-api/src/cmd/utils"
+	"github.com/bburaksseyhan/appdoc-api/src/pkg/client/mongodb"
+	"github.com/bburaksseyhan/appdoc-api/src/pkg/handler"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )

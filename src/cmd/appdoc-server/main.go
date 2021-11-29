@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	"github.com/bburakseyhann/appdoc-api/src/cmd/utils"
-	"github.com/bburakseyhann/appdoc-api/src/pkg/server"
+	"github.com/bburaksseyhan/appdoc-api/src/cmd/utils"
+	"github.com/bburaksseyhan/appdoc-api/src/pkg/server"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
