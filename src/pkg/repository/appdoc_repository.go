@@ -4,8 +4,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/bburakseyhann/appdoc-api/src/cmd/utils"
-	"github.com/bburakseyhann/appdoc-api/src/pkg/entity"
+	"github.com/bburaksseyhan/appdoc-api/src/cmd/utils"
+	"github.com/bburaksseyhan/appdoc-api/src/pkg/entity"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
