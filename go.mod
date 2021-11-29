@@ -1,4 +1,4 @@
-module github.com/bburakseyhann/appdoc-api
+module github.com/bburaksseyhan/appdoc-api
 
 go 1.17
 

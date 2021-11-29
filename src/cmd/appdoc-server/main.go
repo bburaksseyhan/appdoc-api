@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/bburakseyhann/appdoc-api/src/pkg/server"
+	"github.com/bburaksseyhan/appdoc-api/src/pkg/server"
 )
 
 func main() {
